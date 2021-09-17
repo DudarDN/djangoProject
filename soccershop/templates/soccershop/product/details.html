@@ -1,0 +1,72 @@
+{% extends "soccershop/base.html" %}
+{% load static %}
+
+{% block title %}
+    {{ product.name }}
+{% endblock %}
+
+{% block content %}
+    <div class="product-detail">
+        <img src="
+
+
+
+                {% if product.image %}{{ product.image.url }}{% else %}{% static "img/No_image.jpg" %}{% endif %}">
+        <h1>{{ product.name }}</h1>
+        <h2>
+            <a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a>
+        </h2>
+        <p class="price">${{ product.price }}</p>
+        <form action="{% url "cart:cart_add" product.id %}" method="post">
+            <label for="id_sizes">Sizes:</label>
+            <select name="sizes"
+                    id="id_sizes">
+                {% for opt in size_options %}
+                    <option value="{{ opt.value }}">{{ opt.value }}</option>
+                {% endfor %}
+
+            </select>
+            <label for="id_quantity">Quantity:</label><select name="quantity"
+                                                              id="id_quantity">
+            {% for opt in quantity_options %}
+                <option value="{{ opt.0 }}">{{ opt.1 }}</option>
+            {% endfor %}
+
+        </select>
+            <input type="hidden" name="update" value="False" id="id_update">
+            {% csrf_token %}
+            <input type="submit" value="Add to cart">
+        </form>
+        {{ product.description|linebreaks }}
+        {% with reviews.count as total_reviews %}
+            <h2>{{ total_reviews }} review{{ total_reviews|pluralize }}</h2>
+        {% endwith %}
+        {% for review in reviews %}
+            <div class="comment">
+                <p class="info">
+                    Review {{ forloop.counter }} by {{ review.name }}
+                    {{ review.created }}
+                </p>
+                {{ review.body|linebreaks }}
+            </div>
+        {% empty %}
+            <p>There are no reviews yet.</p>
+        {% endfor %}
+        {% if new_review %}
+            <h2>Your review has been added.</h2>
+            <h2>Add a new review</h2>
+            <form action="." method="post">
+                {{ review_form.as_p }}
+                {% csrf_token %}
+                <p><input type="submit" value="Add comment"></p>
+            </form>
+        {% else %}
+            <h2>Add a new review</h2>
+            <form action="." method="post">
+                {{ review_form.as_p }}
+                {% csrf_token %}
+                <p><input type="submit" value="Add comment"></p>
+            </form>
+        {% endif %}
+    </div>
+{% endblock %}

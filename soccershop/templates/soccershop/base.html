@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>{% block title %}Soccer shop{% endblock %}</title>
+    <link href="{% static "css/main.css" %}" rel="stylesheet">
+</head>
+<body>
+<div id="header">
+    <a href="/" class="logo">Soccer Shop</a>
+    <div id="login-block">
+        {% if request.user.is_authenticated == False %}
+            <a href="/account/login">Log-in</a>
+            <a href="/account/register">Register</a>
+        {% else %}
+            Hello, {{ request.user.first_name }}!
+            <a href="{% url "edit" %}">Edit</a>
+            <a href="{% url "password_change" %}">Change password</a>
+            <a href="/account/logout">Logout</a>
+        {% endif %}
+    </div>
+</div>
+<div id="subheader">
+    <div class="cart">
+        {% with total_items=cart|length %}
+            {% if cart|length > 0 %}
+                Your cart:
+                <a href="{% url "cart:cart_detail" %}">
+                    {{ total_items }} item{{ total_items|pluralize }},
+                    ${{ cart.get_total_price }}
+                </a>
+            {% else %}
+                Your cart is empty.
+            {% endif %}
+        {% endwith %}
+    </div>
+</div>
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="{{ message.tags }}">
+                {{ message|safe }}
+                <a href="#" class="close">x</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<div id="content">
+    {% block content %}
+    {% endblock %}
+</div>
+</body>
+</html>
