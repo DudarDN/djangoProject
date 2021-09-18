@@ -15,8 +15,8 @@ def order_create(request):
         if form.is_valid():
             order = form.save()
             for item in cart:
-                for size_item_key in item['sizeItems'].keys():
-                    size_item_value = item['sizeItems'][size_item_key]
+                for size_item_key in item['size_items'].keys():
+                    size_item_value = item['size_items'][size_item_key]
                     OrderItem.objects.create(order=order,
                                              product=item['product'],
                                              price=item['price'],
