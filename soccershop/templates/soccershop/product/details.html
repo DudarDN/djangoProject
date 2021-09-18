@@ -26,15 +26,16 @@
                 {% endfor %}
 
             </select>
-            <label for="id_quantity">Quantity:</label><select name="quantity"
+            <label for="id_quantity">Quantity: </label><select name="quantity"
                                                               id="id_quantity">
+
             {% for opt in quantity_options %}
                 <option value="{{ opt.0 }}">{{ opt.1 }}</option>
             {% endfor %}
 
         </select>
             <input type="hidden" name="update" value="False" id="id_update">
-            {% csrf_token %}
+            {% csrf_token %} <br> <br>
             <input type="submit" value="Add to cart">
         </form>
         {{ product.description|linebreaks }}

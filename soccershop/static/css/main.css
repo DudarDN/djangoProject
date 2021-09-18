@@ -394,7 +394,7 @@ form p {
 }
 
 label {
-    float: left;
+    /*float: left;*/
     clear: both;
     color: #333;
     margin-bottom: 4px;
@@ -417,6 +417,7 @@ input[type=submit], a.button {
     padding: 10px 20px;
     font-size: 14px;
     text-transform: uppercase;
+    float: initial;
 }
 
 .errorlist {
