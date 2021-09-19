@@ -3,6 +3,7 @@ from .models import Order
 
 
 class OrderCreateForm(forms.ModelForm):
+    """Класс для представления формы заказа"""
     class Meta:
         model = Order
         fields = ['first_name',

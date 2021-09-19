@@ -20,8 +20,8 @@ class Cart(object):
         # Получаем объекты модели Product и передаем их в корзину.
         products = Product.objects.filter(id__in=product_ids)
         cart = self.cart.copy()
-        for itemKey in cart.keys():
-            cart[itemKey]['product'] = products.get(id=itemKey[0])
+        for item_key in cart.keys():
+            cart[item_key]['product'] = products.get(id=item_key[0])
         for item in cart.values():
             item['price'] = Decimal(item['price'])
             for size_item in item['size_items'].values():
@@ -38,8 +38,8 @@ class Cart(object):
 
         return count
 
-    def add(self, product, quantity=1, update_quantity=False, size=None):
-        """Добавление товара в корзину"""
+    def add(self, product, quantity=1, size=None):
+        """Добавление товара в корзину."""
         product_id = str(product.id)
         product_was_never_added = True
         for key in self.cart.keys():
@@ -64,7 +64,7 @@ class Cart(object):
         self.save()
 
     def save(self):
-        # Помечаем сессию как измененную
+        """Помечаем сессию как измененную."""
         self.session.modified = True
 
     def remove(self, product, size):
@@ -76,6 +76,7 @@ class Cart(object):
             self.save()
 
     def get_total_price(self):
+        """Вычисление общей стоимости товаров в корзине."""
         total = 0
         for item in self.cart.values():
             for size_item in item['size_items'].values():
@@ -84,6 +85,6 @@ class Cart(object):
         return total
 
     def clear(self):
-        # Очистка корзины.
+        """Очистка корзины."""
         del self.session[settings.CART_SESSION_ID]
         self.save()

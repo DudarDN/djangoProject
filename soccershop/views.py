@@ -7,6 +7,7 @@ from .form import ReviewForm
 
 
 def product_list(request, category_slug=None):
+    """Обработчик отображения списка товара"""
     category = None
     categories = Category.objects.all()
     products = Product.objects.filter(available=True)
@@ -30,35 +31,41 @@ def product_list(request, category_slug=None):
 
 
 def product_detail(request, id, slug):
+    """Обработчик страницы конкретного товара"""
     product = get_object_or_404(Product,
                                 id=id,
                                 slug=slug,
                                 available=True)
+    # Возможные варианты количества товара
     quantity_options = [(i, str(i)) for i in range(1, 21)]
+    # Возможные варианты размеров
     size_options = Size.objects.filter(sizetype=product.syzetype)
-    # Список активных комментариев для этой статьи.
+    # Список активных отзывов для этого товара.
     reviews = product.reviews.filter(active=True)
     new_review = None
-    if request.user.is_authenticated:
-        init_name = request.user.username
-        init_email = request.user.email
     if request.method == 'POST':
-        # Пользователь отправил комментарий.
+        # Пользователь отправил отзыв.
         review_form = ReviewForm(data=request.POST)
         if review_form.is_valid():
-            # Создаем комментарий, но пока не сохраняем в базе данных.
+            # Создаем отзыв, но пока не сохраняем в базе данных.
             new_review = review_form.save(commit=False)
-            # Привязываем комментарий к текущей статье.
+            # Привязываем отзыв к текущему товару.
             new_review.product = product
-            # Сохраняем комментарий в базе данных.
+            # Сохраняем отзыв в базе данных.
             new_review.save()
-            review_form = ReviewForm(initial={'name': init_name,
-                                              'email': init_email})
+            if request.user.is_authenticated:
+                init_name = request.user.username
+                init_email = request.user.email
+                review_form = ReviewForm(initial={'name': init_name,
+                                                  'email': init_email})
+            else:
+                review_form = ReviewForm()
     else:
         if request.user.is_authenticated:
+            init_name = request.user.username
+            init_email = request.user.email
             review_form = ReviewForm(initial={'name': init_name,
                                               'email': init_email})
-
         else:
             review_form = ReviewForm()
     return render(request,

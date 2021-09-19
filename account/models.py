@@ -4,6 +4,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Profile(models.Model):
+    """Класс с дополнительными данными зарегестрированных пользователей"""
     user = models.OneToOneField(settings.AUTH_USER_MODEL,
                                 on_delete=models.CASCADE)
     phone = PhoneNumberField(unique=True, null=True, blank=True)

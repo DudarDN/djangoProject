@@ -5,6 +5,7 @@ PRODUCT_QUANTITY_CHOICES = [(i, str(i)) for i in range(1, 21)]
 
 
 class CartAddProductForm(forms.Form):
+    """Создание формы для выбора количества товара и его размера"""
     sizes_all = Size.objects.all()
     choises = map(lambda s: (s.value, s.value), sizes_all)
     sizes = forms.ChoiceField(choices=choises)

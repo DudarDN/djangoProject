@@ -33,6 +33,9 @@ class Size(models.Model):
                                  on_delete=models.CASCADE)
     value = models.CharField(max_length=200)
 
+    class Meta:
+        ordering = ('sizetype',)
+
     def __str__(self):
         return self.value
 

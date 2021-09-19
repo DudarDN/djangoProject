@@ -5,10 +5,8 @@ from .forms import OrderCreateForm
 from cart.cart import Cart
 
 
-# from .tasks import order_created
-
-
 def order_create(request):
+    """Обработчик для создания заказа"""
     cart = Cart(request)
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
@@ -23,10 +21,7 @@ def order_create(request):
                                              quantity=size_item_value[
                                                  'quantity'],
                                              size=size_item_key)
-            # clear the cart
             cart.clear()
-            # launch asynchronous task
-            # order_created.delay(order.id)
             return render(request,
                           'orders/order/created.html',
                           {'order': order})

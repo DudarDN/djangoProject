@@ -4,6 +4,7 @@ from soccershop.models import Product
 
 
 class Order(models.Model):
+    """Модель определяет поля для сохранения информации о покупателе"""
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
@@ -27,6 +28,7 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
+    """Модель для связи заказа с товарами и указания их кол-ва и стоимости."""
     order = models.ForeignKey(Order,
                               related_name='items',
                               on_delete=models.CASCADE)
@@ -41,4 +43,5 @@ class OrderItem(models.Model):
         return '{}'.format(self.id)
 
     def get_cost(self):
+        """Получение общей стоимости товаров в корзине"""
         return self.price * self.quantity
