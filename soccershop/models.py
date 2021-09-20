@@ -44,7 +44,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category,
                                  related_name='products',
                                  on_delete=models.CASCADE)
-    syzetype = models.ForeignKey(SizeType,
+    sizetype = models.ForeignKey(SizeType,
                                  related_name='products',
                                  on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=200, db_index=True)

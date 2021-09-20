@@ -39,7 +39,7 @@ def product_detail(request, id, slug):
     # Возможные варианты количества товара
     quantity_options = [(i, str(i)) for i in range(1, 21)]
     # Возможные варианты размеров
-    size_options = Size.objects.filter(sizetype=product.syzetype)
+    size_options = Size.objects.filter(sizetype=product.sizetype)
     # Список активных отзывов для этого товара.
     reviews = product.reviews.filter(active=True)
     new_review = None

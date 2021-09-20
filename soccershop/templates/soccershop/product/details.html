@@ -59,14 +59,14 @@
             <form action="." method="post">
                 {{ review_form.as_p }}
                 {% csrf_token %}
-                <p><input type="submit" value="Add comment"></p>
+                <p><input type="submit" value="Add review"></p>
             </form>
         {% else %}
             <h2>Add a new review</h2>
             <form action="." method="post">
                 {{ review_form.as_p }}
                 {% csrf_token %}
-                <p><input type="submit" value="Add comment"></p>
+                <p><input type="submit" value="Add review"></p>
             </form>
         {% endif %}
     </div>
