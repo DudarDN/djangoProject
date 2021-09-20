@@ -3,6 +3,7 @@ from django.urls import reverse
 
 
 class Category(models.Model):
+    """Класс описывающий категории товаров"""
     name = models.CharField(max_length=200,
                             db_index=True)
     slug = models.SlugField(max_length=200,
@@ -22,6 +23,7 @@ class Category(models.Model):
 
 
 class SizeType(models.Model):
+    """Класс описывающий тип размеров"""
     name = models.CharField(max_length=200)
 
     def __str__(self):
@@ -29,6 +31,7 @@ class SizeType(models.Model):
 
 
 class Size(models.Model):
+    """Класс описывающий размеры товаров в зависимости от типа"""
     sizetype = models.ForeignKey(SizeType, related_name='sizes',
                                  on_delete=models.CASCADE)
     value = models.CharField(max_length=200)
@@ -41,6 +44,7 @@ class Size(models.Model):
 
 
 class Product(models.Model):
+    """Класс описывающий товар"""
     category = models.ForeignKey(Category,
                                  related_name='products',
                                  on_delete=models.CASCADE)
@@ -70,6 +74,7 @@ class Product(models.Model):
 
 
 class Review(models.Model):
+    """Класс описывающий модель для отзыва о товаре"""
     product = models.ForeignKey(Product, on_delete=models.CASCADE,
                                 related_name='reviews')
     name = models.CharField(max_length=80)
